@@ -1,0 +1,10 @@
+{
+	"description": "A filter that copies specified files to a different place on your drive.",
+	"filters": [
+		{
+			"runWith": "nodejs",
+			"script": "./main.js",
+			"name": "shapescape_copy_files"
+		}
+	]
+}
