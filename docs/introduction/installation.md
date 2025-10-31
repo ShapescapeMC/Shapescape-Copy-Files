@@ -11,7 +11,7 @@ regolith install shapescape_copy_files
 
 You can alternatively use this command:
 ```
-regolith install github.com/ShapescapeMC/shapescape-copy-files
+regolith install github.com/ShapescapeMC/shapescape-copy-files/shapescape_copy_files
 ```
 
 ### 2. Add filter to a profile
