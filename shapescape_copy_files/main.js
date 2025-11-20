@@ -2,6 +2,23 @@ const fs = require("fs");
 const path = require("path");
 
 /**
+ * Expands environment variables in a path string.
+ * Supports %VAR% syntax on all platforms.
+ * @param {string} pathString - Path string potentially containing environment variables.
+ * @returns {string} Path with environment variables expanded.
+ */
+function expandEnvVars(pathString) {
+	return pathString.replace(/%([^%]+)%/g, (match, varName) => {
+		const value = process.env[varName];
+		if (value === undefined) {
+			console.warn(`Warning: Environment variable ${varName} is not defined.`);
+			return match; // Keep the original %VAR% if not found
+		}
+		return value;
+	});
+}
+
+/**
  * Copies a file or directory recursively.
  * @param {string} src - Source path of the file or directory to copy.
  * @param {string} dest - Destination path where the file or directory should be copied.
@@ -52,8 +69,12 @@ function copyFiles(input) {
 		}
 
 		try {
-			copy(src, dest);
-			console.log(`Copied ${src} to ${dest}`);
+			// Expand environment variables in both src and dest
+			const expandedSrc = expandEnvVars(src);
+			const expandedDest = expandEnvVars(dest);
+
+			copy(expandedSrc, expandedDest);
+			console.log(`Copied ${expandedSrc} to ${expandedDest}`);
 		} catch (error) {
 			console.error(`Failed to copy ${src} to ${dest}:`, error);
 		}
